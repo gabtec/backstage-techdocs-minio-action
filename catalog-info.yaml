@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-techdocs-minio-action
+  description: Used to build and publish Backstage TechDocs into Minio (S3) Server.
+  annotations:
+    github.com/project-slug: gabetc/backstage-techdocs-minio-action
+  tags:
+    - github-action
+    - backstage
+spec:
+  type: other
+  lifecycle: production
+  owner: user:guest

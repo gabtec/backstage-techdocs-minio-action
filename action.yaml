@@ -1,0 +1,85 @@
+# Inspired at: https://github.com/Staffbase/backstage-techdocs-action
+name: 'Backstage Minio TechDocs'
+description: 'Generate and publish Backstage TechDocs.'
+author: 'Gabtec' #'Staffbase GmbH'
+
+inputs:
+  entity-namespace:
+    description: 'Entity Namespace'
+    required: true
+    default: 'default'
+  entity-kind:
+    description: 'Entity Kind'
+    required: true
+    default: 'Component'
+  entity-name:
+    description: 'Entity Name'
+    required: true
+  publisher-type:
+    description: 'awsS3'
+    required: false
+  storage-name:
+    description: 'The bucket name.'
+    required: false
+  aws-region:
+    description: 'AWS Region'
+    required: false
+    default: 'eu-central-1'
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: false
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: false
+  aws-server-url:
+    description: 'The Minio API server url'
+    required: true
+  additional-plugins:
+    description: 'List of additional python plugins to use for site creation'
+    required: false
+  skip-publish:
+    description: 'Indicates whether publish step should be skipped'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+
+    - name: Install Minio CLI Tool
+      shell: bash
+      run: |
+        curl https://dl.min.io/client/mc/release/linux-amd64/mc --create-dirs -o $HOME/minio-bin/mc
+
+    - name: Install techdocs-cli
+      shell: bash
+      run: sudo npm install -g @techdocs/cli
+
+    - name: Install mkdocs and mkdocs plugins
+      shell: bash
+      run: python -m pip install mkdocs-techdocs-core==1.*
+
+    - name: Install additional plugins
+      if: inputs.additional-plugins != ''
+      shell: bash
+      run: |
+        for p in ${{ inputs.additional-plugins }}
+        do
+          python -m pip install $p
+        done
+
+    - name: Generate docs site
+      shell: bash
+      run: techdocs-cli generate --no-docker --verbose
+
+    - name: Publish TechDocs site to Minio S3 Compatible Server
+      if: inputs.skip-publish == 'false'
+      shell: bash
+      run: |
+        $HOME/minio-bin/mc alias set minio ${{ inputs.aws-server-url }} ${{ inputs.aws-access-key-id }} ${{ inputs.aws-secret-access-key }}
+        $HOME/minio-bin/mc cp --recursive --override ./site minio/${{ inputs.storage-name }}/${{ inputs.entity-namespace }}/${{ inputs.entity-kind }}/${{ inputs.entity-name }}
