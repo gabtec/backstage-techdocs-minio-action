@@ -9,9 +9,42 @@ Publishes then into a Minio S3 compatible bucket, under BUCKET_NAME/backstage-na
 
 ## Usage
 
-:construction: Under construction
+```yaml
+name: Publish TechDocs Site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/techdocs.yaml'
+
+jobs:
+  publish-techdocs-site:
+    name: Publish TechDocs Site
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build TechDocs
+        uses: gabtec/backstage-techdocs-minio-action
+        with:
+          entity-name: example # the entity name in backstage
+          entity-kind: 'Service' # the entity kind, default is Component
+          entity-namespace: 'default' # the namespace, 'default' is the default
+          publisher-type: 'awsS3' # only this option
+          storage-name: 'techdocs' # bucket name at your choice (Must already exist)
+          aws-region: 'pt-central-rack-1' # Minio Region
+          aws-access-key-id: ${{ secrets.S3_ACCESS_KEY }} # Minio accessKeyId
+          aws-secret-access-key: ${{ secrets.S3_SECRET_KEY }} # Minio accessSecretKey
+          aws-server-url: ${{ secrets.S3_SERVER_URL }} # e.g. https://minio.example.org:9000 (api)
+```
 
 ## Config Variables
+
+:construction: Under construction
 
 ## License
 
