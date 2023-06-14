@@ -34,9 +34,7 @@ jobs:
           entity-name: example # the entity name in backstage
           entity-kind: 'Service' # the entity kind, default is Component
           entity-namespace: 'default' # the namespace, 'default' is the default
-          publisher-type: 'awsS3' # only this option
           storage-name: 'techdocs' # bucket name at your choice (Must already exist)
-          aws-region: 'pt-central-rack-1' # Minio Region
           aws-access-key-id: ${{ secrets.S3_ACCESS_KEY }} # Minio accessKeyId
           aws-secret-access-key: ${{ secrets.S3_SECRET_KEY }} # Minio accessSecretKey
           aws-server-url: ${{ secrets.S3_SERVER_URL }} # e.g. https://minio.example.org:9000 (api)
@@ -44,7 +42,17 @@ jobs:
 
 ## Config Variables
 
-:construction: Under construction
+| Name                    | Description                                                                        | Required | Default     |
+| ----------------------- | ---------------------------------------------------------------------------------- | -------- | ----------- |
+| `entity-namespace`      | Entity namespace in Backstage                                                      | `true`   | `default`   |
+| `entity-kind`           | Kind of the Backstage entity                                                       | `true`   | `Component` |
+| `entity-name`           | Name of the Backstage entity                                                       | `true`   |             |
+| `storage-name`          | The bucket name                                                                    | `true`   | `techdocs`  |
+| `aws-access-key-id`     | Minio Access Key ID                                                                | `true`   |             |
+| `aws-secret-access-key` | Minio Secret Access Key                                                            | `true`   |             |
+| `aws-server-url`        | Minio API Server Url                                                               | `true`   |             |
+| `additional-plugins`    | Space separated list of additional python plugins (Bash quoting for special chars) | `false`  |             |
+| `skip-publish`          | Indicates whether publish step should be skipped                                   | `false`  | `false`     |
 
 ## License
 

@@ -1,7 +1,7 @@
 # Inspired at: https://github.com/Staffbase/backstage-techdocs-action
 name: 'Backstage Minio TechDocs'
 description: 'Generate and publish Backstage TechDocs.'
-author: 'Gabtec' #'Staffbase GmbH'
+author: 'Gabtec'
 
 inputs:
   entity-namespace:
@@ -15,22 +15,16 @@ inputs:
   entity-name:
     description: 'Entity Name'
     required: true
-  publisher-type:
-    description: 'awsS3'
-    required: false
   storage-name:
     description: 'The bucket name.'
-    required: false
-  aws-region:
-    description: 'AWS Region'
-    required: false
-    default: 'eu-central-1'
+    required: true
+    default: 'techdocs'
   aws-access-key-id:
     description: 'AWS Access Key ID'
-    required: false
+    required: true
   aws-secret-access-key:
     description: 'AWS Secret Access Key'
-    required: false
+    required: true
   aws-server-url:
     description: 'The Minio API server url'
     required: true
