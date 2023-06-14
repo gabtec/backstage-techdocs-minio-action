@@ -55,6 +55,7 @@ runs:
       shell: bash
       run: |
         curl https://dl.min.io/client/mc/release/linux-amd64/mc --create-dirs -o $HOME/minio-bin/mc
+        chmod +x $HOME/minio-bin/mc
 
     - name: Install techdocs-cli
       shell: bash
