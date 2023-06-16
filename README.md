@@ -29,7 +29,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build TechDocs
-        uses: gabtec/backstage-techdocs-minio-action
+        uses: gabtec/backstage-techdocs-minio-action:v0.0.2
         with:
           entity-name: example # the entity name in backstage
           entity-kind: 'Service' # the entity kind, default is Component
