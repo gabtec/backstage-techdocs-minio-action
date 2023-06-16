@@ -5,7 +5,7 @@ This action is inspired on [backstage-techdocs-action](https://github.com/Staffb
 ## Features
 
 Builds techdocs from mkdocs.yaml and docs/, at repo root level
-Publishes then into a Minio S3 compatible bucket, under BUCKET_NAME/backstage-namespace/backstage-kind/backstage-entity-name
+Publishes then into a Minio S3 compatible bucket, under buckert_name/backstage-namespace/backstage-kind/backstage-entity-name (all lowercase)
 
 ## Usage
 
